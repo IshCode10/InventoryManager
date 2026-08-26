@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import api from './api'
 
-function Dashboard() {
+function Dashboard({refreshKey}) {
   const [items, setItems] = useState([])
   const [error, setError] = useState('')
 
@@ -9,7 +9,7 @@ function Dashboard() {
     api.get('/items/')
       .then((response) => setItems(response.data))
       .catch(() => setError('Could not load inventory. Is the backend running?'))
-  }, [])
+  }, [refreshKey])
 
   return (
     <div>
