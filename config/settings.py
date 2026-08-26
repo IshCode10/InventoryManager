@@ -143,7 +143,7 @@ MAILERS = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://inventory-manager-kappa-two.vercel.app/",
+    "https://inventory-manager-kappa-two.vercel.app",
     ]
 
 STATIC_URL = '/static/'
