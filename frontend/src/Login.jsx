@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { API_BASE_URL } from './api'
 import axios from 'axios'
 
 function Login({ onLogin }) {
@@ -10,7 +10,7 @@ function Login({ onLogin }) {
     e.preventDefault()
     setError('')
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/token/', {
+      const response = await axios.post(`${API_BASE_URL}/token/`, {
         username,
         password,
       })
