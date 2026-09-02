@@ -1,6 +1,36 @@
 from rest_framework import viewsets
 from .models import InventoryItem, WasteLog, Restock
 from .serializers import InventoryItemSerializer, WasteLogSerializer, RestockSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .ai_parser import parse_waste_text
+from .matching import find_best_match
+
+class ParseWasteTextView(APIView):
+    def post(self, request):
+        text = request.data.get('text', '').strip()
+        if not text:
+            return Response({'error': 'No text provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            parsed = parse_waste_text(text)
+        except Exception as e:
+            return Response({'error': f'Could not parse: {str(e)}'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
+        item_name = parsed.get('item_name', '')
+        matched_item, score = find_best_match(item_name)
+
+        CONFIDENCE_THRESHOLD = 70
+
+        result = {'parsed': parsed, 'raw_text': text, 'confidence': score}
+        if matched_item and score >= CONFIDENCE_THRESHOLD:
+            result['matched_item_id'] = matched_item.id
+            result['matched_item_name'] = matched_item.name
+        else:
+            result['matched_item_id'] = None
+
+        return Response(result)
 
 class InventoryItemViewSet(viewsets.ModelViewSet):
     queryset = InventoryItem.objects.all()
