@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import api from './api'
 
-function Dashboard({refreshKey}) {
+function Dashboard({ refreshKey }) {
   const [items, setItems] = useState([])
   const [error, setError] = useState('')
 
@@ -12,36 +12,48 @@ function Dashboard({refreshKey}) {
   }, [refreshKey])
 
   return (
-    <div>
-      <h2>Inventory</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Quantity</th>
-            <th>Unit</th>
-            <th>Cost/Unit</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((item) => {
-            const isLow = parseFloat(item.current_qty) <= parseFloat(item.low_stock_threshold)
-            return (
-              <tr key={item.id} style={{ color: isLow ? 'red' : 'inherit' }}>
-                <td>{item.name}</td>
-                <td>{item.category}</td>
-                <td>{item.current_qty}</td>
-                <td>{item.unit}</td>
-                <td>${item.cost_per_unit}</td>
-                <td>{isLow ? 'LOW STOCK' : 'OK'}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+    <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+      <div className="px-6 py-4 border-b border-gray-200">
+        <h2 className="text-lg font-semibold text-gray-900">Inventory</h2>
+      </div>
+      {error && <p className="px-6 py-4 text-red-600">{error}</p>}
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm text-left">
+          <thead className="bg-gray-50 text-gray-500 uppercase text-xs">
+            <tr>
+              <th className="px-6 py-3 font-medium">Name</th>
+              <th className="px-6 py-3 font-medium">Category</th>
+              <th className="px-6 py-3 font-medium">Quantity</th>
+              <th className="px-6 py-3 font-medium">Unit</th>
+              <th className="px-6 py-3 font-medium">Cost/Unit</th>
+              <th className="px-6 py-3 font-medium">Status</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {items.map((item) => {
+              const isLow = parseFloat(item.current_qty) <= parseFloat(item.low_stock_threshold)
+              return (
+                <tr key={item.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-3 font-medium text-gray-900">{item.name}</td>
+                  <td className="px-6 py-3 text-gray-600">{item.category}</td>
+                  <td className="px-6 py-3 text-gray-600">{item.current_qty}</td>
+                  <td className="px-6 py-3 text-gray-600">{item.unit}</td>
+                  <td className="px-6 py-3 text-gray-600">${item.cost_per_unit}</td>
+                  <td className="px-6 py-3">
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        isLow ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
+                      }`}
+                    >
+                      {isLow ? 'LOW STOCK' : 'OK'}
+                    </span>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
