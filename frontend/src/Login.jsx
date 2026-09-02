@@ -2,7 +2,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import { API_BASE_URL } from './api'
 
-function Login({ onLogin }) {
+function Login({ onLogin, onSwitchToRegister }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -56,6 +56,13 @@ function Login({ onLogin }) {
             Log In
           </button>
         </form>
+
+        <p className="text-sm text-gray-500 mt-4 text-center">
+          Don't have an account?{' '}
+          <button onClick={onSwitchToRegister} className="text-blue-600 hover:underline">
+            Sign up
+          </button>
+        </p>
       </div>
     </div>
   )

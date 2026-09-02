@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Login from './Login'
+import Register from './Register'
 import Dashboard from './Dashboard'
 import WasteLogForm from './WasteLogForm'
 import NaturalWasteLogger from './NaturalWasteLogger'
@@ -7,6 +8,7 @@ import AddItemForm from './AddItemForm'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('access_token'))
+  const [authView, setAuthView] = useState('login')
   const [refreshKey, setRefreshKey] = useState(0)
 
   const handleLogout = () => {
@@ -15,7 +17,20 @@ function App() {
   }
 
   if (!isLoggedIn) {
-    return <Login onLogin={() => setIsLoggedIn(true)} />
+    if (authView === 'register') {
+      return (
+        <Register
+          onRegister={() => setIsLoggedIn(true)}
+          onSwitchToLogin={() => setAuthView('login')}
+        />
+      )
+    }
+    return (
+      <Login
+        onLogin={() => setIsLoggedIn(true)}
+        onSwitchToRegister={() => setAuthView('register')}
+      />
+    )
   }
 
   return (
