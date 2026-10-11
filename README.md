@@ -6,9 +6,9 @@ The problem is one I saw firsthand working back-of-house at Chick-fil-A: waste t
 
 **Live app:** [inventory-manager-kappa-two.vercel.app](https://inventory-manager-kappa-two.vercel.app)
 ## Screenshots
-![Dashboard](screenshots/dashboard.png)
 ![Registration](screenshots/registration.png)
 ![Login](screenshots/login.png)
+![Dashboard](screenshots/main.png)
 
 
 
